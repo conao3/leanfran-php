@@ -7,12 +7,12 @@ Please open issues and pull requests in the [source repository](https://github.c
 
 ## Install
 
-Clone leanfran to build the compiler and access the sample files. Enter the Nix development shell for PHP, Composer, and Lean.
+Install the compiler with Nix. Clone leanfran for the sample files and enter the development shell for PHP, Composer, and Lean.
 
 ```sh
+nix profile install 'github:conao3/lean-leanfran#leanfran'
 git clone https://github.com/conao3/lean-leanfran.git
 cd lean-leanfran
-nix build .#php
 nix develop .#php -c sh
 ```
 
@@ -90,7 +90,7 @@ echo Pricing::width(new Range(lo: 2, hi: 5)), PHP_EOL;
 Check the Lean block, generate the PHP trait and types, and run the application.
 
 ```sh
-vendor/bin/leanfran sync --leanfran-php ../lean-leanfran/result/bin/leanfran-php
+leanfran --lang php sync
 php main.php
 ```
 
@@ -143,7 +143,7 @@ Copy the proofs into `lean/Proofs/` next to `composer.json`. Install the PHP par
 mkdir -p lean/Proofs
 cp ../lean-leanfran/langs/PHP/samples/verified-clamp/lean/Proofs/Calc.lean lean/Proofs/
 composer require --dev --no-interaction 'nikic/php-parser:^5.9'
-vendor/bin/leanfran check --leanfran-php ../lean-leanfran/result/bin/leanfran-php --require proved
+leanfran --lang php check --require proved
 ```
 
 The proof check reports both obligations as proved.
@@ -169,7 +169,7 @@ You can also generate PHP directly from a compiled Lean module. From the applica
 
 ```sh
 (cd ../lean-leanfran/langs/PHP/samples/pricing/lean && lake build)
-../lean-leanfran/result/bin/leanfran-php module generate --module-name Pricing \
+leanfran --lang php module generate --module-name Pricing \
   --search-path ../lean-leanfran/langs/PHP/samples/pricing/lean/.lake/build/lib/lean \
   --output-dir generated --php-namespace 'App\Lean\Pricing'
 ```
